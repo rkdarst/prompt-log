@@ -1,6 +1,8 @@
 
-
+# Setting `trap` in a function doesn't work on some versions of bash,
+# this is more reliable.
 alias prompt-log="_prompt-log-enable && trap '_prompt-log-exec' DEBUG"
+# This does initial setup.
 function _prompt-log-enable () {
     PS1_SIMPLE=1
     PROMPT_LOG_FILE=${1:-~/demos.out}
@@ -12,6 +14,7 @@ function _prompt-log-enable () {
     #echo "On an older shell, you may need to run \"trap '_prompt_demo_log_command' DEBUG\""
 }
 
+# This is run on each prompt, finds `this_command` and handles it.
 _prompt-log-exec () {
         #echo logging $BASH_COMMAND
         # https://superuser.com/questions/175799
