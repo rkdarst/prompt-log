@@ -6,8 +6,8 @@ alias prompt-log="_prompt-log-enable && trap '_prompt-log-exec' DEBUG"
 function _prompt-log-enable () {
     PS1_SIMPLE=1
     PROMPT_LOG_FILE=${1:-~/demos.out}
-    PROMPT_LOG_COLOR=${PROMPT_LOG_COLOR:-$LIGHT_BLUE}$
-    PROMPT_LOG_COLOR_CMD=${PROMPT_LOG_COLOR_CMD:-$BLUE}$
+    PROMPT_LOG_COLOR=${PROMPT_LOG_COLOR:-$LIGHT_BLUE}
+    PROMPT_LOG_COLOR_CMD=${PROMPT_LOG_COLOR_CMD:-$BLUE}
     export PS1="$PROMPT_LOG_COLOR\w$PS1_INFO\$$NO_COLOR $PROMPT_LOG_COLOR_CMD"
     echo "logging to $PROMPT_LOG_FILE"
     trap '_prompt-log-exec' DEBUG
