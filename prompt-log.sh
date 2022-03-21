@@ -1,21 +1,35 @@
 
-# Setting `trap` in a function doesn't work on some versions of bash,
-# this is more reliable.
-alias prompt-log="_prompt-log-enable && trap '_prompt-log-exec' DEBUG"
+if [ -n "$ZSH_NAME" ] ; then
+    #zsh
+    #alias prompt-log="_prompt-log-enable && preexec() { echo -ne $'\e[0m' ; _prompt-log-exec }"
+    alias prompt-log="_prompt-log-enable"
+else
+    # bash
+    # Setting `trap` in a function doesn't work on some versions of bash,
+    # this is more reliable.
+    alias prompt-log="_prompt-log-enable && trap '_prompt-log-exec-bash' DEBUG"
+    #echo "On an older shell, you may need to run \"trap '_prompt_demo_log_command' DEBUG\""
+fi
 # This does initial setup.
 function _prompt-log-enable () {
     PS1_SIMPLE=1
     PROMPT_LOG_FILE=${1:-~/demos.out}
-    PROMPT_LOG_COLOR=${PROMPT_LOG_COLOR:-$LIGHT_BLUE}
-    PROMPT_LOG_COLOR_CMD=${PROMPT_LOG_COLOR_CMD:-$BLUE}
-    export PS1="$PROMPT_LOG_COLOR\w$PS1_INFO\$$NO_COLOR $PROMPT_LOG_COLOR_CMD"
+    PROMPT_LOG_COLOR=${PROMPT_LOG_COLOR:-$BLUE}
+    PROMPT_LOG_COLOR_CMD=${PROMPT_LOG_COLOR_CMD:-$LIGHT_BLUE}
+    if [ -n "$ZSH_NAME" ] ; then
+	# zsh
+	export PS1=$'%~%#\e[0m %B%F{blue}'
+	preexec() { echo -ne $'\e[0m' ; echo "$1" >> "$PROMPT_LOG_FILE" ; }
+    else
+	# bash
+	export PS1="$PROMPT_LOG_COLOR\w\$$NO_COLOR $PROMPT_LOG_COLOR_CMD"
+	#trap '_prompt-log-exec-bash' DEBUG
+    fi
     echo "logging to $PROMPT_LOG_FILE"
-    trap '_prompt-log-exec' DEBUG
-    #echo "On an older shell, you may need to run \"trap '_prompt_demo_log_command' DEBUG\""
 }
 
 # This is run on each prompt, finds `this_command` and handles it.
-_prompt-log-exec () {
+_prompt-log-exec-bash () {
         #echo logging $BASH_COMMAND
         # https://superuser.com/questions/175799
         [ -n "$COMP_LINE" ] && return  # do nothing if completing
