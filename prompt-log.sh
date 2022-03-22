@@ -7,7 +7,7 @@ else
     # bash
     # Setting `trap` in a function doesn't work on some versions of bash,
     # this is more reliable.
-    alias prompt-log="_prompt-log-enable && trap '_prompt-log-exec-bash' DEBUG"
+    alias prompt-log="trap '_prompt-log-exec-bash' DEBUG && _prompt-log-enable"
     #echo "On an older shell, you may need to run \"trap '_prompt_demo_log_command' DEBUG\""
 fi
 # This does initial setup.
@@ -30,15 +30,18 @@ function _prompt-log-enable () {
 
 # This is run on each prompt, finds `this_command` and handles it.
 _prompt-log-exec-bash () {
-        #echo logging $BASH_COMMAND
-        # https://superuser.com/questions/175799
-        [ -n "$COMP_LINE" ] && return  # do nothing if completing
-        [[ "$PROMPT_COMMAND" =~ "$BASH_COMMAND" ]] && return # don't cause a preexec for $PROMPT_COMMAND
-        local this_command=`HISTTIMEFORMAT= history 1 | sed -e "s/^[ ]*[0-9]*[ ]*//"`;
-        # Here you can add other logging hooks
-        echo "$this_command" >> "$PROMPT_LOG_FILE"
-        # end
-        echo -ne "\e[0m" # Reset color to neutral
+    if [ -z "$PROMPT_LOG_FILE" ] ; then
+	return
+    fi
+    #echo logging $BASH_COMMAND
+    # https://superuser.com/questions/175799
+    [ -n "$COMP_LINE" ] && return  # do nothing if completing
+    [[ "$PROMPT_COMMAND" =~ "$BASH_COMMAND" ]] && return # don't cause a preexec for $PROMPT_COMMAND
+    local this_command=`HISTTIMEFORMAT= history 1 | sed -e "s/^[ ]*[0-9]*[ ]*//"`;
+    # Here you can add other logging hooks
+    echo "$this_command" >> "$PROMPT_LOG_FILE"
+    # end
+    echo -ne "\e[0m" # Reset color to neutral
 }
 
 BLACK="\[\e[0;30m\]"
