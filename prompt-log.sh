@@ -22,10 +22,21 @@ function _prompt-log-enable () {
 	preexec() { echo -ne $'\e[0m' ; echo "$1" >> "$PROMPT_LOG_FILE" ; }
     else
 	# bash
-	export PS1="$PROMPT_LOG_COLOR\w\$$NO_COLOR $PROMPT_LOG_COLOR_CMD"
+        # With path
+	#export PS1="$PROMPT_LOG_COLOR\w\$$NO_COLOR $PROMPT_LOG_COLOR_CMD"
+        # Without path
+	export PS1="$PROMPT_LOG_COLOR\$$NO_COLOR $PROMPT_LOG_COLOR_CMD"
 	#trap '_prompt-log-exec-bash' DEBUG
     fi
     echo "logging to $PROMPT_LOG_FILE"
+
+    # Set prompt command to display terminal title.
+    PROMPT_COMMAND='chtitle "$(hostname)   $PWD"'
+}
+
+# Change the terminal emulator title.
+function chtitle () {
+    echo -ne "\033]0;$*\007" ; BASH_CUSTOMTITLE=t
 }
 
 # This is run on each prompt, finds `this_command` and handles it.
