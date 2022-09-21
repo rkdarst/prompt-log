@@ -3,11 +3,16 @@
 A "show the recent prompt history for use in demos and teaching".  It
 has some features not found in all similar tools:
 
-- Show the command before it exits (this is sometimes missing for
-  long-running commands, like `git commit` that invokes an editor)
-- Color the **command being typed** more strongly than the prompt
-  itself.
-- Simple, pure bash/zsh.
+- Show the command in the history before it exits.  For long running
+  commands like those that open the editor, watchers need to see the
+  command before it returns back to the shell.
+- Also adjust the prompt appearance and color.
+- Color the **command being typed** in addition to the prompt itself.
+- Updates the window title bar with the machine name and the working
+  directory (saving space in the prompt itself).
+- Logs to a separate file.  Recommended to open another terminal (with
+  a smaller font size) to `tail -f demos.out`.
+- Compatible with bash/zsh.  Simple, pure shell.
 
 ![demo of prompt-log](img/demo1.png)
 
@@ -15,13 +20,13 @@ has some features not found in all similar tools:
 
 ## Usage
 
-Right now this only supports bash and zsh.
+Installation: Clone the repository, or copy `prompt-log.sh` locally.
 
 `source prompt-log.sh` (this could even be within your shell startup
-scripts)
+scripts - the sourceing alone does not change anything).
 
-This creates a shell alias `prompt-log [file]` to start the logging
-(it permanently changes the shell prompt and so on).  Logs are written
+Then, run the shell alias `prompt-log [file]` to start the logging
+(this permanently changes the shell prompt and so on).  Logs are written
 to `~/demos.out` if `[file]` not given.
 
 
@@ -35,5 +40,6 @@ the source to work on other computers.
 
 ## See also
 
-- https://coderefinery.org/manuals/instructor-tech-setup/#terminal-history-for-learners
-  lists some other options
+- https://coderefinery.org/manuals/instructor-tech-setup/
+  lists more things to do for a clear screenshare and lists some other
+  options for history logging.
