@@ -40,6 +40,6 @@ the source to work on other computers.
 
 ## See also
 
-- https://coderefinery.org/manuals/instructor-tech-setup/
+- https://coderefinery.github.io/manuals/instructor-tech-setup/
   lists more things to do for a clear screenshare and lists some other
   options for history logging.
