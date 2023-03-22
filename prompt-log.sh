@@ -1,3 +1,8 @@
+if [[ $(uname) == 'Darwin' ]]; then
+  READLINK=greadlink
+else
+  READLINK=readlink
+fi
 
 if [ -n "$ZSH_NAME" ] ; then
     #zsh
@@ -13,7 +18,7 @@ fi
 # This does initial setup.
 function _prompt-log-enable () {
     PS1_SIMPLE=1
-    PROMPT_LOG_FILE=$(readlink -f ${1:-~/demos.out})
+    PROMPT_LOG_FILE=$($READLINK -f ${1:-~/demos.out})
     PROMPT_LOG_COLOR=${PROMPT_LOG_COLOR:-$BLUE}
     PROMPT_LOG_COLOR_CMD=${PROMPT_LOG_COLOR_CMD:-$LIGHT_BLUE}
     if [ -n "$ZSH_NAME" ] ; then
