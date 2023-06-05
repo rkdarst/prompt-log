@@ -18,6 +18,8 @@ fi
 # This does initial setup.
 function _prompt-log-enable () {
     PS1_SIMPLE=1
+    # Create the log file if it doesn't exist.
+    touch ${1:-~/demos.out}
     PROMPT_LOG_FILE=$($READLINK -f ${1:-~/demos.out})
     PROMPT_LOG_COLOR=${PROMPT_LOG_COLOR:-$BLUE}
     PROMPT_LOG_COLOR_CMD=${PROMPT_LOG_COLOR_CMD:-$LIGHT_BLUE}
