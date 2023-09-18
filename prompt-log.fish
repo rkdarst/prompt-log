@@ -3,8 +3,16 @@ alias prompt-log="_prompt-log-enable"
 function _prompt-log-enable;
   set --global PS1_SIMPLE 1;
   set --global -x PROMPT_LOG_FILE "$HOME/demos.out";
-  set --global PROMPT_LOG_FILE (readlink -f "$PROMPT_LOG_FILE");
-  echo setup PROMPT_LOG_FILE: $PROMPT_LOG_FILE ;
+
+  set uname (uname)
+  if [[ "$uname" == 'Darwin' ]];
+    set --global PROMPT_LOG_FILE (greadlink -f "$PROMPT_LOG_FILE");
+  else
+    set --global PROMPT_LOG_FILE (readlink -f "$PROMPT_LOG_FILE");
+  end
+
+  touch "$PROMPT_LOG_FILE"
+  #echo setup PROMPT_LOG_FILE: $PROMPT_LOG_FILE ;
 
   function fish_prompt
     set_color brblue
