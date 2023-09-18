@@ -2,13 +2,19 @@ alias prompt-log="_prompt-log-enable"
 
 function _prompt-log-enable;
   set --global PS1_SIMPLE 1;
-  set --global -x PROMPT_LOG_FILE "$HOME/demos.out";
 
-  set uname (uname)
-  if [[ "$uname" == 'Darwin' ]];
-    set --global PROMPT_LOG_FILE (greadlink -f "$PROMPT_LOG_FILE");
+  if test -n "$argv[1]"
+    set --global PROMPT_LOG_FILE "$argv[1]"
   else
-    set --global PROMPT_LOG_FILE (readlink -f "$PROMPT_LOG_FILE");
+    set --global PROMPT_LOG_FILE "$HOME/demos.out";
+  end
+
+  # Readlink used to canonicalize filenames (relative paths won't work
+  # when cd:ing.)
+  if test (uname) = 'Darwin'
+    set --global PROMPT_LOG_FILE (greadlink -f "$PROMPT_LOG_FILE")
+  else
+    set --global PROMPT_LOG_FILE (readlink -f "$PROMPT_LOG_FILE")
   end
 
   touch "$PROMPT_LOG_FILE"

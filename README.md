@@ -13,6 +13,7 @@ has some features not found in all similar tools:
 - Logs to a separate file.  Recommended to open another terminal (with
   a smaller font size) to `tail -f demos.out`.
 - Compatible with bash/zsh.  Simple, pure shell.
+- Compatible with fish (`source prompt-log.fish` instead)
 
 ![demo of prompt-log](img/demo1.png)
 
@@ -62,7 +63,7 @@ to `~/demos.out` if `[file]` is not given.
 ## Status and development
 
 Under semi-active development, but you might expect to have to modify
-the source to work on other computers.
+the source to work on other computers.  Please contribute.
 
 
 
