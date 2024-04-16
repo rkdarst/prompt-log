@@ -21,10 +21,17 @@ has some features not found in all similar tools:
 
 ## Installation
 
-Clone the repository, or copy `prompt-log.sh` locally.
+Clone the repository, or copy `prompt-log.sh` locally.  It's a
+single-file script.
 
 `source prompt-log.sh` (this could even be within your shell startup
 scripts - the source-ing alone does not change anything).
+
+Make sure you configure your terminal where you can switch to
+light-background dark-text.  It's designed for that (but could be
+configured by editing the file).
+
+
 
 ### One more step on macOS
 
@@ -42,6 +49,7 @@ brew install coreutils watch
 > exist and also uses different command-line options. *prompt-log* will check
 > your operation system and will choose to use `greadlink` on macOS instead of
 > `readlink`.
+
 
 
 ## Usage
